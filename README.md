@@ -3,6 +3,8 @@ This is a framework and wrapper for the SFML library that makes creating games e
 
 As of right now, there is no documentation. I will eventually provide a video tutorial demonstrating the use of this framework.
 
+It is highly recommended you use the following compilers, because the static libraries included were compiled with MinGW 7.3.0
+
 Download 32bit And 64bit Compiler Here
 (This is MinGW32 + MinGW64 7.3.0)
 
