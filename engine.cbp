@@ -9,11 +9,13 @@
 			<Target title="Engine Library 64bit">
 				<Option output="engine64-s" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
+				<Option object_output=".objs64" />
 				<Option type="2" />
 				<Option compiler="gnu_gcc_730_64bit_compiler" />
 				<Compiler>
 					<Add option="-m64" />
 					<Add directory="./library/SFML-2.5.1-64/include" />
+					<Add directory="engine" />
 				</Compiler>
 				<Linker>
 					<Add option="-m64" />
@@ -28,6 +30,7 @@
 				<Option compiler="gnu_gcc_730_compiler" />
 				<Compiler>
 					<Add directory="./library/SFML-2.5.1/include" />
+					<Add directory="engine" />
 				</Compiler>
 				<Linker>
 					<Add option="-m32" />
@@ -78,6 +81,8 @@
 		<Unit filename="engine/engine.h" />
 		<Unit filename="engine/gameobject.cpp" />
 		<Unit filename="engine/gameobject.h" />
+		<Unit filename="engine/gui.cpp" />
+		<Unit filename="engine/gui.h" />
 		<Unit filename="engine/inputhandler.cpp" />
 		<Unit filename="engine/inputhandler.h" />
 		<Unit filename="engine/mask.cpp" />
