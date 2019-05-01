@@ -1,6 +1,8 @@
 #ifndef _ENGINE_GUI_H_
 #define _ENGINE_GUI_H_
 
+#define TOUCH_NONE 999
+
 namespace Engine {
 
     namespace Gui {
@@ -53,7 +55,7 @@ namespace Engine {
             ButtonTheme themeButton;
         };
 
-        class Component : public Engine::ScreenDrawable, public Engine::Input::Mouse {
+        class Component : public Engine::ScreenDrawable, public Engine::Input::Mouse, public Engine::Input::Touch {
         public:
             Component(Theme&, Callback);
             virtual ~Component();
@@ -76,11 +78,15 @@ namespace Engine {
             virtual void onUp(const sf::Vector2f&, sf::Mouse::Button) {}
             virtual void mousePress(const sf::Vector2f&, sf::Mouse::Button) {}
             virtual void mouseRelease(const sf::Vector2f&, sf::Mouse::Button) {}
+
         private:
             bool click;
+            unsigned int touch;
             Callback callbackFunction;
             void mouseButtonPress(sf::Event::MouseButtonEvent &evt);
             void mouseButtonRelease(sf::Event::MouseButtonEvent &evt);
+            void touchBegin(sf::Event::TouchEvent &evt);
+            void touchEnd(sf::Event::TouchEvent &evt);
         };
 
         class Checkbox : public Component {
@@ -107,10 +113,12 @@ namespace Engine {
             Textbox(Theme& theme, Callback = NULL);
             virtual ~Textbox();
             virtual void onEnter(std::string& str) {}
+            virtual void onTab(std::string& str) {}
             void setString(const std::string&);
             std::string getString();
             void Select();
             void Deselect();
+            bool Selected() { return selected; }
             void Disable(bool);
         private:
             sf::RectangleShape outside, textCursor, overlay;

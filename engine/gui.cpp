@@ -13,7 +13,7 @@ namespace Engine {
         Theme::~Theme() { }
 
         //main component class implementation
-        Component::Component(Theme& theme, Callback cb): boundingBox({0,0,0,0}), x(0), y(0), disabled(false), currentTheme(theme), click(false), callbackFunction(cb) {
+        Component::Component(Theme& theme, Callback cb): boundingBox({0,0,0,0}), x(0), y(0), disabled(false), currentTheme(theme), click(false), touch(TOUCH_NONE), callbackFunction(cb) {
             view().reset(sf::FloatRect(0, 0, App::current().window().getSize().x, App::current().window().getSize().y));
         }
 
@@ -75,6 +75,30 @@ namespace Engine {
             }
             click = false;
         }
+
+        void Component::touchBegin(sf::Event::TouchEvent &evt){
+            sf::Vector2f pos(evt.x, evt.y),
+                rpos(pos.x - x, pos.y - y);
+            mousePress(pos, sf::Mouse::Left);
+            if(insideBox(pos)) touch = evt.finger;
+            if(touch) onDown(rpos, sf::Mouse::Left);
+        }
+
+        void Component::touchEnd(sf::Event::TouchEvent &evt){
+            sf::Vector2f pos(evt.x, evt.y),
+                rpos(pos.x - x, pos.y - y);
+            mouseRelease(pos, sf::Mouse::Left);
+            if(touch == evt.finger){
+                if(insideBox(pos)){
+                    do{
+                        if(callbackFunction != NULL) if(!callbackFunction((Engine::Gui::Component*)this, rpos, sf::Mouse::Left)) break;
+                        onUp(rpos, sf::Mouse::Left);
+                    } while(0);
+                }
+                touch = TOUCH_NONE;
+            }
+        }
+
         //Extended components
 
 
@@ -230,13 +254,16 @@ namespace Engine {
                 case sf::Keyboard::Enter:
                     onEnter(textString);
                 break;
+                case sf::Keyboard::Tab:
+                    onTab(textString);
+                break;
             }
             updateString();
         }
 
         void Textbox::windowTextEntered(sf::Event::TextEvent &evt){
             if(!selected) return;
-            if((evt.unicode < 127 && evt.unicode > 31) || evt.unicode == 9){
+            if((evt.unicode < 127 && evt.unicode > 31)){
                 textString += evt.unicode;
             }
             if(evt.unicode == 8 && textString.length()){
@@ -266,7 +293,8 @@ namespace Engine {
             updateCursor();
         }
 
-        //button component
+        //Button implementation
+
         Button::Button(Theme& theme, Callback cb, const std::string& btnString): Component(theme, cb),
             textFont(theme.themeButton.font_text) {
             sf::Vector2f size(theme.themeButton.size);

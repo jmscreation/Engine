@@ -45,6 +45,14 @@ namespace Engine {
         return c;
     }
 
+    void BaseCollidable::beginAll() {
+        grid.iterateAllBegin();
+    }
+
+    BaseCollidable* BaseCollidable::iterateAll() {
+        return grid.iterateAllNext();
+    }
+
     void BaseCollidable::beginCollision() {
         beginPosition(x(),y());
     }

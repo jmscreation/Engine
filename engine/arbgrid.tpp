@@ -1,7 +1,7 @@
 #include <cstring>
 #include "arbgrid.h"
 
-template<class T> ArbGrid<T>::ArbGrid(int sz): size(sz) {
+template<class T> ArbGrid<T>::ArbGrid(int sz): size(sz), iterator(NULL), allIterator(NULL), allIteratorCell(0) {
     size = size<1 ? 1 : size>8192 ? 8192 : size; // limit size; technically, true working max is 46340, but 8192 should ever be more than sufficient
 
     int sq = size*size;
@@ -182,6 +182,32 @@ template<class T> T ArbGrid<T>::iterateCellNext() {
     T& cur = iterator->item;
     iterator = iterator->next;
     return cur;
+}
+template<class T> void ArbGrid<T>::iterateAllBegin() {
+    allIteratorGrid = -1;
+    allIteratorCell = NULL;
+    allIterator = NULL;
+}
+template<class T> T ArbGrid<T>::iterateAllNext() {
+    int sq = size*size;
+    while(1) {
+        if(allIterator == NULL) {
+            if(allIteratorCell == NULL) {
+                allIteratorGrid++;
+                if(allIteratorGrid >= sq)
+                    return T();
+
+                allIteratorCell = grid[allIteratorGrid];
+                continue;
+            }
+            allIterator = allIteratorCell->start;
+            allIteratorCell = allIteratorCell->next;
+            continue;
+        }
+        T& cur = allIterator->item;
+        allIterator = allIterator->next;
+        return cur;
+    }
 }
 
 template<class T> typename ArbGrid<T>::Cell* ArbGrid<T>::getCell(int x,int y,Cell*** ptr_out) {
