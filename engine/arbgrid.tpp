@@ -1,7 +1,49 @@
 #include <cstring>
 #include "arbgrid.h"
 
-template<class T> ArbGrid<T>::ArbGrid(int sz): size(sz), iterator(NULL), allIterator(NULL), allIteratorCell(0) {
+template<class T> ArbGrid<T>::CellIterator::CellIterator(): parent(NULL) {}
+
+template<class T> ArbGrid<T>::CellIterator::~CellIterator() {
+    setParent(NULL);
+}
+
+template<class T> void ArbGrid<T>::CellIterator::setParent(ArbGrid<T>* par) {
+    if(parent == par) return;
+
+    if(parent != NULL) {
+        auto pos = std::find(parent->cellIterators.begin(), parent->cellIterators.end(), this);
+        if(pos != parent->cellIterators.end())
+            parent->cellIterators.erase(pos);
+    }
+
+    parent = par;
+
+    if(parent != NULL)
+        parent->cellIterators.push_back(this);
+}
+
+template<class T> ArbGrid<T>::AllIterator::AllIterator(): parent(NULL) {}
+
+template<class T> ArbGrid<T>::AllIterator::~AllIterator() {
+    setParent(NULL);
+}
+
+template<class T> void ArbGrid<T>::AllIterator::setParent(ArbGrid<T>* par) {
+    if(parent == par) return;
+
+    if(parent != NULL) {
+        auto pos = std::find(parent->allIterators.begin(), parent->allIterators.end(), this);
+        if(pos != parent->allIterators.end())
+            parent->allIterators.erase(pos);
+    }
+
+    parent = par;
+
+    if(parent != NULL)
+        parent->allIterators.push_back(this);
+}
+
+template<class T> ArbGrid<T>::ArbGrid(int sz): size(sz) {
     size = size<1 ? 1 : size>8192 ? 8192 : size; // limit size; technically, true working max is 46340, but 8192 should ever be more than sufficient
 
     int sq = size*size;
@@ -12,6 +54,11 @@ template<class T> ArbGrid<T>::ArbGrid(int sz): size(sz), iterator(NULL), allIter
 
 template<class T> ArbGrid<T>::~ArbGrid() {
     clear();
+
+    for(auto iter: cellIterators)
+        iter->parent = NULL;
+    for(auto iter: allIterators)
+        iter->parent = NULL;
 
     delete[] grid;
 }
@@ -43,8 +90,14 @@ template<class T> void ArbGrid<T>::cellRemove(int x,int y,T value) {
     Item** ptr = &c->start;
     while(item != NULL) {
         if(item->item == value) {
-            if(iterator == item)
-                iterator = item->next;
+            for(auto iter: cellIterators) {
+                if(iter->item == item)
+                    iter->item = item->next;
+            }
+            for(auto iter: allIterators) {
+                if(iter->item == item)
+                    iter->item = item->next;
+            }
             *ptr = item->next; // join previous item to skip this item
             delete item;
             break;
@@ -65,9 +118,18 @@ template<class T> void ArbGrid<T>::cellClear(int x,int y) {
 
     Item* item = c->start, *pitem;
 
+    for(auto iter: allIterators) {
+        if(iter->cell == c) {
+            iter->item = NULL;
+            iter->cell = c->next;
+        }
+    }
+
     while(item != NULL) {
-        if(iterator == item)
-            iterator = NULL; // cell will be empty; NULL out iterator
+        for(auto iter: cellIterators) {
+            if(iter->item == item)
+                iter->item = NULL; // cell will be empty; NULL out iterator
+        }
         pitem = item;
         item = item->next;
         delete pitem;
@@ -77,7 +139,13 @@ template<class T> void ArbGrid<T>::cellClear(int x,int y) {
 }
 
 template<class T> void ArbGrid<T>::clear() {
-    iterator = NULL;
+    for(auto iter: cellIterators) {
+        iter->item = NULL;
+    }
+    for(auto iter: allIterators) {
+        iter->item = NULL;
+        iter->cell = NULL;
+    }
 
     for(int i=0,sq=size*size;i<sq;i++) { // destroy each cell-set
         Cell *curcell, *pcell;
@@ -171,41 +239,45 @@ template<class T> bool ArbGrid<T>::iterateAll(ArbGrid<T>::func_celliterator iter
     return true;
 }
 
-template<class T> void ArbGrid<T>::iterateCellBegin(int x,int y) {
+template<class T> void ArbGrid<T>::iterateCellBegin(int x,int y,CellIterator& iter) {
     Cell* c = getExistingCell(x,y);
-    iterator = c == NULL ? NULL : c->start;
+    iter.item = c == NULL ? NULL : c->start;
+    iter.setParent(this);
 }
 
-template<class T> T ArbGrid<T>::iterateCellNext() {
-    if(iterator == NULL)
+template<class T> T ArbGrid<T>::iterateCellNext(CellIterator& iter) {
+    if(iter.item == NULL)
         return T();
-    T& cur = iterator->item;
-    iterator = iterator->next;
+    T& cur = iter.item->item;
+    iter.item = iter.item->next;
     return cur;
 }
-template<class T> void ArbGrid<T>::iterateAllBegin() {
-    allIteratorGrid = -1;
-    allIteratorCell = NULL;
-    allIterator = NULL;
+
+template<class T> void ArbGrid<T>::iterateAllBegin(AllIterator& iter) {
+    iter.square = -1;
+    iter.cell = NULL;
+    iter.item = NULL;
+    iter.setParent(this);
 }
-template<class T> T ArbGrid<T>::iterateAllNext() {
+
+template<class T> T ArbGrid<T>::iterateAllNext(AllIterator& iter) {
     int sq = size*size;
     while(1) {
-        if(allIterator == NULL) {
-            if(allIteratorCell == NULL) {
-                allIteratorGrid++;
-                if(allIteratorGrid >= sq)
+        if(iter.item == NULL) {
+            if(iter.cell == NULL) {
+                iter.square++;
+                if(iter.square >= sq)
                     return T();
 
-                allIteratorCell = grid[allIteratorGrid];
+                iter.cell = grid[iter.square];
                 continue;
             }
-            allIterator = allIteratorCell->start;
-            allIteratorCell = allIteratorCell->next;
+            iter.item = iter.cell->start;
+            iter.cell = iter.cell->next;
             continue;
         }
-        T& cur = allIterator->item;
-        allIterator = allIterator->next;
+        T& cur = iter.item->item;
+        iter.item = iter.item->next;
         return cur;
     }
 }

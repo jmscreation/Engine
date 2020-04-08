@@ -21,9 +21,11 @@ namespace Engine {
         Animation* animator;
         int ani, img, delay, d;
     public:
-        AnimatedSprite(Animation* ani);
+        AnimatedSprite(Animation* a=nullptr);
         virtual ~AnimatedSprite();
 
+        void updateAnimation(Animation* a);
+        inline Animation* getAnimation() { return animator; }
         void animation(int anim, int frame=0);
         int animation();
         void frame(int frame);

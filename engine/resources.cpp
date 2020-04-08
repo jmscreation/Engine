@@ -16,6 +16,7 @@ namespace Engine {
     }
 
     FileResources::~FileResources() {
+        if(failed != NULL) delete failed;
         for(int i=0,l=package.size();i<l;i++)
             delete package[i];
     }
@@ -272,6 +273,7 @@ namespace Engine {
     }
 
     ImageResources::~ImageResources() {
+        if(failed != NULL) delete failed;
         for(int i=0,l=package.size();i<l;i++)
             delete package[i];
     }
@@ -407,6 +409,7 @@ namespace Engine {
     }
 
     TextureResources::~TextureResources() {
+        if(failed != NULL) delete failed;
         for(int i=0,l=package.size();i<l;i++)
             delete package[i];
     }
@@ -552,6 +555,7 @@ namespace Engine {
     }
 
     AudioResources::~AudioResources() {
+        if(failed != NULL) delete failed;
         for(int i=0,l=package.size();i<l;i++)
             delete package[i];
     }

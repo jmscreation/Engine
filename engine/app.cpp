@@ -51,6 +51,8 @@ namespace Engine {
         sf::Event event;
         sf::Clock clock;
 
+        ArbGrid<BaseDrawable*>::CellIterator drawIter;
+
         while(1) {
             #define ___APP_EVENT_LOOP(LIST,FUNCCALL,ITER) \
                 do { \
@@ -209,8 +211,8 @@ namespace Engine {
 
                 for(int y=y1;y<y2;y++)
                 for(int x=x1;x<x2;x++) {
-                    BaseDrawable::grid.iterateCellBegin(x,y);
-                    while(BaseDrawable* itm = BaseDrawable::grid.iterateCellNext())
+                    BaseDrawable::grid.iterateCellBegin(x,y,drawIter);
+                    while(BaseDrawable* itm = BaseDrawable::grid.iterateCellNext(drawIter))
                         drawStack.add(itm->_depth,itm);
                 }
 

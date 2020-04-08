@@ -4,7 +4,7 @@ namespace Engine {
 
     AudioContext* AudioContext::currentCtx = NULL;
 
-    AudioContext::AudioContext(int rate): locked(false), sampleRate(rate), stream(NULL) {
+    AudioContext::AudioContext(int rate): sampleRate(rate), stream(NULL) {
         if(currentCtx == NULL) {
             currentCtx = this;
 
@@ -56,18 +56,19 @@ namespace Engine {
 
     int AudioContext::callback(const void* in,void* out,unsigned long fpb,
         const PaStreamCallbackTimeInfo* tmi,PaStreamCallbackFlags flgs) {
-        locked = true;
+        
+        locked.lock();
 
         int playsz = playlist.size();
 
         float *samples_out = (float*)out;
 
         float L,R, lv,rv;
-        for(int samp=0;samp<fpb;samp++) {
+        for(int samp=0; samp<fpb; samp++) {
             L = R = 0;
-            for(int i=0;i<playsz;i++) {
+            for(int i=0; i<playsz; i++) {
                 if(playlist[i] == NULL) {
-                    playlist.erase(playlist.begin()+i);
+                    playlist.erase(playlist.begin() + i);
                     i--; playsz--;
                     continue;
                 }
@@ -78,7 +79,7 @@ namespace Engine {
             *samples_out++ = R;
         }
 
-        locked = false;
+        locked.unlock();
 
         return 0;
     }
@@ -205,17 +206,19 @@ namespace Engine {
     SoundInstance::SoundInstance(SoundBuffer* buf,int playmode,bool dest,float volume):
         sound(buf), pos(0), speed(playmode==0 ? 0 : buf->sampleFactor), volPan(0), vol(volume), destroy(dest), looping(playmode==2) {
         AudioContext& ctx = AudioContext::current();
-        while(ctx.locked);
+
+        ctx.locked.lock();
         ctx.playlist.push_back(this);
+        ctx.locked.unlock();
     }
 
     SoundInstance::~SoundInstance() {
         AudioContext& ctx = AudioContext::current();
+        
+        ctx.locked.lock();
         auto i = std::find(ctx.playlist.begin(),ctx.playlist.end(),this);
-        if(ctx.locked)
-            *i = NULL;
-        else
-            ctx.playlist.erase(i);
+        *i = NULL;
+        ctx.locked.unlock();
     }
 
     void SoundInstance::play(float spd) {

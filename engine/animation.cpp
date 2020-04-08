@@ -18,13 +18,14 @@ namespace Engine {
     Animation::~Animation() {}
 
     AnimatedSprite::AnimatedSprite(Animation* a):
-        sf::Sprite(*a->texture), animator(a), ani(0), img(0), delay(1), d(1) {
-        animation(ani,img);
+        animator(a), ani(0), img(0), delay(1), d(1) {
+        updateAnimation(a);
     }
 
     AnimatedSprite::~AnimatedSprite() {}
 
     void AnimatedSprite::animation(int anim,int frame) {
+        if(animator == nullptr) return;
         anim = anim < 0 ? 0 : anim >= animator->animationFrames.size() ? animator->animationFrames.size()-1 : anim;
         d = delay;
         ani = anim;
@@ -38,6 +39,16 @@ namespace Engine {
             animator->width,
             animator->height
         ));
+    }
+
+    void AnimatedSprite::updateAnimation(Animation* a) {
+        animator = a;
+        if(a != nullptr) {
+            if(a->texture != nullptr){
+                setTexture(*a->texture);
+            }
+            animation(ani,img);
+        }
     }
 
     int AnimatedSprite::animation() {
