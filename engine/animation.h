@@ -14,6 +14,8 @@ namespace Engine {
         Animation(sf::Texture* tex,std::vector<int>&& aniFrames,int x,int y,int imgWidth,int imgHeight,int stripWidth);
         virtual ~Animation();
 
+        inline sf::Texture* getTexture() { return texture; }
+
         friend class AnimatedSprite;
     };
 
