@@ -12,3 +12,9 @@ Here you can download either MinGW 7.3.0 or MinGW 9.2.0
 
 Download 32bit And 64bit Compilers Here:
 https://drive.google.com/drive/folders/1WPynZRhfQ73q2lGU1es5IduNChDuE-Of?usp=sharing
+
+
+Note:
+Future releases will only support Mingw GCC 10.2.0.
+Download Here:
+https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-9.0.0-r3
