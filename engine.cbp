@@ -4,39 +4,35 @@
 	<Project>
 		<Option title="Engine" />
 		<Option pch_mode="2" />
-		<Option compiler="gnu_gcc_920_compiler" />
+		<Option compiler="gnu_gcc_1020_64bit_compiler" />
 		<Build>
 			<Target title="Engine Library 64bit">
 				<Option output="engine64-s" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output=".objs64" />
 				<Option type="2" />
-				<Option compiler="gnu_gcc_920_64bit_compiler" />
+				<Option compiler="gnu_gcc_1020_64bit_compiler" />
 				<Compiler>
+					<Add option="-std=c++20" />
 					<Add option="-std=c++1z" />
-					<Add option="-m64" />
-					<Add directory="./library/SFML-2.5.1-64_920/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-m64" />
 					<Add library="./library/libportaudio64-s.a" />
-					<Add directory="./library/SFML-2.5.1-64_920/lib" />
+					<Add directory="./library/SFML-2.5.1/lib64" />
 				</Linker>
 			</Target>
 			<Target title=" Engine Library 32bit">
 				<Option output="engine-s" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option type="2" />
-				<Option compiler="gnu_gcc_920_compiler" />
+				<Option compiler="gnu_gcc_1020_compiler" />
 				<Compiler>
+					<Add option="-std=c++20" />
 					<Add option="-std=c++1z" />
-					<Add option="-m32" />
-					<Add directory="./library/SFML-2.5.1_920/include" />
 				</Compiler>
 				<Linker>
-					<Add option="-m32" />
 					<Add library="./library/libportaudio-s.a" />
-					<Add directory="./library/SFML-2.5.1_920/lib" />
+					<Add directory="library/SFML-2.5.1/lib" />
 				</Linker>
 			</Target>
 			<Target title="Engine Library 32bit (GCC 7.3.0)">
@@ -53,7 +49,7 @@
 				<Linker>
 					<Add option="-m32" />
 					<Add library="./library/libportaudio-s-730.a" />
-					<Add directory="./library/SFML-2.5.1/lib" />
+					<Add directory="library/SFML-2.5.1/lib_gcc730" />
 				</Linker>
 			</Target>
 			<Target title="Engine Library 64bit (GCC 7.3.0)">
@@ -70,15 +66,17 @@
 				<Linker>
 					<Add option="-m64" />
 					<Add library="./library/libportaudio64-s-730.a" />
-					<Add directory="./library/SFML-2.5.1-64/lib" />
+					<Add directory="library/SFML-2.5.1/lib_gcc730" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-O3" />
 			<Add option="-DSFML_STATIC" />
-			<Add directory="game/" />
+			<Add directory="game" />
 			<Add directory="engine" />
+			<Add directory="library" />
+			<Add directory="library/SFML-2.5.1/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-s" />
@@ -136,9 +134,6 @@
 		<Unit filename="engine/view.cpp" />
 		<Unit filename="engine/view.h" />
 		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
 			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
