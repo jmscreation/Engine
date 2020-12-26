@@ -17,4 +17,4 @@ https://drive.google.com/drive/folders/1WPynZRhfQ73q2lGU1es5IduNChDuE-Of?usp=sha
 Note:
 Future releases will only support Mingw GCC 10.2.0.
 Download Here:
-https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-9.0.0-r3
+https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-r3
