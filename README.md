@@ -6,7 +6,7 @@ As of right now, there is no documentation. I've been pretty busy, and so I may 
 It is required that you use the same compilers that I have. This is because the static libraries included are pre-compiled with Mingw GCC 10.2.0
 
 Download Mingw GCC 10.2.0 32bit and 64bit:
-https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-9.0.0-r3
+https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-r3
 
 
 
@@ -18,3 +18,8 @@ Here you can download either Mingw GCC 7.3.0 or Mingw GCC 9.2.0 for backwards co
 https://drive.google.com/drive/folders/1WPynZRhfQ73q2lGU1es5IduNChDuE-Of?usp=sharing
 
 (64bit and 32bit compilers are packaged together per MinGW version)
+
+Note:
+Future releases will only support Mingw GCC 10.2.0.
+Download Here:
+https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-r3
