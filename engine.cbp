@@ -14,7 +14,6 @@
 				<Option compiler="gnu_gcc_1020_64bit_compiler" />
 				<Compiler>
 					<Add option="-std=c++20" />
-					<Add option="-std=c++1z" />
 				</Compiler>
 				<Linker>
 					<Add library="./library/libportaudio64-s.a" />
@@ -28,7 +27,6 @@
 				<Option compiler="gnu_gcc_1020_compiler" />
 				<Compiler>
 					<Add option="-std=c++20" />
-					<Add option="-std=c++1z" />
 				</Compiler>
 				<Linker>
 					<Add library="./library/libportaudio-s.a" />
@@ -88,6 +86,8 @@
 			<Add library="sfml-window-s" />
 			<Add library="sfml-system-s" />
 			<Add library="sfml-network-s" />
+			<Add library="setupapi" />
+			<Add library="uuid" />
 			<Add library="winmm" />
 			<Add library="opengl32" />
 			<Add library="gdi32" />
