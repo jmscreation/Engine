@@ -13,7 +13,7 @@ https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-
 
 # Important Linker Settings:
 
-In order to compiling your game, you must link the following libraries in this order:
+In order to compile your game, you must link the following libraries in this order:
 
 engine64-s			Engine Framework (64bit)
 portaudio64-s		PortAudio (64bit)
