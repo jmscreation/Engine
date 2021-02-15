@@ -15,19 +15,31 @@ https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-
 
 In order to compile your game, you must link the following libraries in this order:
 
-engine64-s			Engine Framework (64bit)
-portaudio64-s		PortAudio (64bit)
-sfml-graphics-s		SFML
-sfml-window-s		SFML
-sfml-system-s		SFML
-sfml-network-s		SFML
-setupapi			Used by PortAudio
-winmm				Used by SFML
-opengl32			Used by SFML
-gdi32				Used by SFML
-freetype			Used by SFML
-ws2_32				Used by SFML
-comdlg32			Used by Engine Framework
+`engine64-s`        Engine Framework (64bit)
+
+`portaudio64-s`     PortAudio (64bit)
+
+`sfml-graphics-s`   SFML
+
+`sfml-window-s`		  SFML
+
+`sfml-system-s`		  SFML
+
+`sfml-network-s`		SFML
+
+`setupapi`			    Used by PortAudio
+
+`winmm`				      Used by SFML
+
+`opengl32`			    Used by SFML
+
+`gdi32`				      Used by SFML
+
+`freetype`			    Used by SFML
+
+`ws2_32`				    Used by SFML
+
+`comdlg32`			    Used by Engine Framework
 
 For older versions:
 I still have the 9.2.0 and 7.3.0 compilers that I used to compile previous versions of this library.
