@@ -5,9 +5,12 @@ As of right now, there is no documentation. I've been pretty busy, and so I may 
 
 It is required that you use the same compilers that I have. This is because the static libraries included are pre-compiled with Mingw GCC 10.2.0
 
-Download Mingw GCC 10.2.0 32bit and 64bit:
-https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-r3
+Download Latest MingW GCC 10.2.0 32bit and 64bit:
+https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-r7
 
+*32bit: winlibs-i686-posix-dwarf-gcc-10.2.0-mingw-w64-8.0.0-r7.7z*
+
+*64bit: winlibs-x86_64-posix-seh-gcc-10.2.0-mingw-w64-8.0.0-r7.7z*
 
 
 
