@@ -44,6 +44,12 @@ In order to compile your game, you must link the following libraries in this ord
 
 `comdlg32`			    Used by Engine Framework
 
+For 32bit, replace the first 2 linked libraries with:
+
+`engine-s`        Engine Framework (32bit)
+
+`portaudio-s`     PortAudio (32bit)
+
 For older versions:
 I still have the 9.2.0 and 7.3.0 compilers that I used to compile previous versions of this library.
 To make it easy for anyone having difficulty getting the right compiler, you can download the older versions below.
@@ -55,5 +61,4 @@ https://drive.google.com/drive/folders/1WPynZRhfQ73q2lGU1es5IduNChDuE-Of?usp=sha
 
 Note:
 Future releases will only support Mingw GCC 10.2.0.
-Download Here:
-https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-r3
+See download link above
