@@ -26,7 +26,7 @@ namespace Engine {
         [ 2  6  10 14 ]
         [ 3  7  11 15 ]
     */
-    float View::viewMouseX() {
+    float View::viewMouseX() const {
         const float* m = getInverseTransform().getMatrix();
         const sf::IntRect &viewport = App::current().window().getViewport(*this);
 
@@ -35,7 +35,7 @@ namespace Engine {
              + m[12];
     }
 
-    float View::viewMouseY() {
+    float View::viewMouseY() const {
         const float* m = getInverseTransform().getMatrix();
         const sf::IntRect &viewport = App::current().window().getViewport(*this);
 

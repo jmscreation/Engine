@@ -15,7 +15,7 @@ namespace Engine {
         rect = {w,h};
     }
 
-    bool Mask::collidesWith(Mask& m) {
+    bool Mask::collidesWith(const Mask& m) {
         switch(type | m.type) {
             case _MASK_TEST_CIRCLECIRCLE:
                 {

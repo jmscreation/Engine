@@ -15,10 +15,10 @@ namespace Engine {
     BaseDrawable::~BaseDrawable() {}
 
     void BaseDrawable::depth(float d) {
-        if(_depth != d) {
+        //if(_depth != d) {
             _depth = d;
             // App::current().viewState.needsUpdate = true;
-        }
+        //}
     }
 
     void BaseDrawable::draw(sf::RenderWindow& win,sf::Time& delta) {
@@ -104,7 +104,7 @@ namespace Engine {
     SortList<ScreenDrawable*> ScreenDrawable::list;
 
     ScreenDrawable::ScreenDrawable(View* vw,float d) {
-        if(vw == NULL)
+        if(vw == nullptr)
             _view = new View();
         else
             _view = vw;

@@ -14,7 +14,7 @@ namespace Engine {
         Window::~Window() {
             auto pos = std::find(list.begin(),list.end(),this);
             if(iterating)
-                *pos = NULL;
+                *pos = nullptr;
             else
                 list.erase(pos);
         }
@@ -30,7 +30,7 @@ namespace Engine {
         Keyboard::~Keyboard() {
             auto pos = std::find(list.begin(),list.end(),this);
             if(iterating)
-                *pos = NULL;
+                *pos = nullptr;
             else
                 list.erase(pos);
         }
@@ -52,7 +52,7 @@ namespace Engine {
         Mouse::~Mouse() {
             auto pos = std::find(list.begin(),list.end(),this);
             if(iterating)
-                *pos = NULL;
+                *pos = nullptr;
             else
                 list.erase(pos);
         }
@@ -79,7 +79,7 @@ namespace Engine {
         Touch::~Touch() {
             auto pos = std::find(list.begin(),list.end(),this);
             if(iterating)
-                *pos = NULL;
+                *pos = nullptr;
             else
                 list.erase(pos);
         }
@@ -94,7 +94,7 @@ namespace Engine {
         Joystick::~Joystick() {
             auto pos = std::find(list.begin(),list.end(),this);
             if(iterating)
-                *pos = NULL;
+                *pos = nullptr;
             else
                 list.erase(pos);
         }

@@ -3,10 +3,9 @@
 
 //Engine Defines:
 
-#define APP_CLASS GameApp        //Class name for your game
+#define APP_CLASS TestApplication        //Class name for your game
 #define USE_AUDIO               //Includes audio library if audio is needed for your game
-//#define ARB_GRID_CELLS 1024   //Used to determine the size of the arbitrary grid cell size
-
+//#define ARB_GRID_CELLS 1024   //Used to preset the size of the arbitrary grid cell size
 
 
 

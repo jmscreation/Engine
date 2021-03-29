@@ -11,7 +11,7 @@ namespace Engine {
 
     static int cellOffsets[] = {0,0, -1,-1, 0,-1, 1,-1, -1,0, 1,0, -1,1, 0,1, 1,1};
 
-    BaseCollidable::BaseCollidable(float x,float y): mask(NULL) {
+    BaseCollidable::BaseCollidable(float x,float y): mask(nullptr) {
         int cx = int(floor(x / COLLIDABLE_REGION_SIZE)),
             cy = int(floor(y / COLLIDABLE_REGION_SIZE));
 
@@ -19,7 +19,7 @@ namespace Engine {
     }
 
     BaseCollidable::~BaseCollidable() {
-        if(mask != NULL)
+        if(mask != nullptr)
             delete mask;
     }
 
@@ -30,7 +30,7 @@ namespace Engine {
     }
 
     BaseCollidable* BaseCollidable::iterateCell(CellIterator& iter) {
-        BaseCollidable* c;
+        //BaseCollidable* c;
         return grid.iterateCellNext(iter.arbIter);
     }
 
@@ -42,18 +42,18 @@ namespace Engine {
     }
 
     BaseCollidable* BaseCollidable::iteratePosition(PositionIterator& iter) {
-        if(iter.cell == -1) return NULL;
+        if(iter.cell == -1) return nullptr;
         BaseCollidable* c;
         do {
             c = grid.iterateCellNext(iter.arbIter);
-            if(c == NULL) {
+            if(c == nullptr) {
                 if(++iter.cell==9) {
                     iter.cell = -1;
-                    return NULL;
+                    return nullptr;
                 }
                 grid.iterateCellBegin(iter.x + cellOffsets[iter.cell*2], iter.y + cellOffsets[iter.cell*2+1], iter.arbIter);
             }
-        } while(c == NULL);
+        } while(c == nullptr);
         return c;
     }
 
@@ -87,18 +87,18 @@ namespace Engine {
     }
 
     BaseCollidable* BaseCollidable::iterateRect(RectIterator& iter) {
-        if(iter.cell == -1) return NULL;
+        if(iter.cell == -1) return nullptr;
         BaseCollidable* c;
         do {
             c = grid.iterateCellNext(iter.arbIter);
-            if(c == NULL) {
+            if(c == nullptr) {
                 if(++iter.cell >= iter.w * iter.h) {
                     iter.cell = -1;
-                    return NULL;
+                    return nullptr;
                 }
                 grid.iterateCellBegin(iter.x + iter.cell % iter.w, iter.y + iter.cell / iter.w, iter.arbIter);
             }
-        } while(c == NULL || c->x() < iter.x1 || c->x() >= iter.x2 || c->y() < iter.y1 || c->y() >= iter.y2);
+        } while(c == nullptr || c->x() < iter.x1 || c->x() >= iter.x2 || c->y() < iter.y1 || c->y() >= iter.y2);
         return c;
     }
 
@@ -107,18 +107,18 @@ namespace Engine {
     }
 
     BaseCollidable* BaseCollidable::iterateCollidable(PositionIterator& iter) {
-        if(iter.cell == -1) return NULL;
+        if(iter.cell == -1) return nullptr;
         BaseCollidable* c;
         do {
             c = grid.iterateCellNext(iter.arbIter);
-            if(c == NULL) {
+            if(c == nullptr) {
                 if(++iter.cell==9) {
                     iter.cell = -1;
-                    return NULL;
+                    return nullptr;
                 }
                 grid.iterateCellBegin(iter.x + cellOffsets[iter.cell*2], iter.y + cellOffsets[iter.cell*2+1], iter.arbIter);
             }
-        } while(c == NULL || c == this);
+        } while(c == nullptr || c == this);
         return c;
     }
 
@@ -127,7 +127,7 @@ namespace Engine {
             ocy = int(floor(oy / COLLIDABLE_REGION_SIZE)),
             ncx = int(floor(nx / COLLIDABLE_REGION_SIZE)),
             ncy = int(floor(ny / COLLIDABLE_REGION_SIZE));
-        if(mask != NULL) {
+        if(mask != nullptr) {
             mask->x = nx;
             mask->y = ny;
         }

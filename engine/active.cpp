@@ -12,7 +12,7 @@ namespace Engine {
     Active::~Active() {
         auto pos = std::find(list.begin(),list.end(),this);
         if(iterating)
-            *pos = NULL;
+            *pos = nullptr;
         else
             list.erase(pos);
     }
@@ -27,7 +27,7 @@ namespace Engine {
     ActiveEnd::~ActiveEnd() {
         auto pos = std::find(list.begin(),list.end(),this);
         if(iterating)
-            *pos = NULL;
+            *pos = nullptr;
         else
             list.erase(pos);
     }

@@ -2,12 +2,12 @@
 
 namespace Engine {
 
-    App* App::currentApp = NULL;
+    App* App::currentApp = nullptr;
 
     App::App(int width, int height, std::string title, sf::Uint32 winstyle, bool defaultView):
         videoMode(width,height) {
 
-        if(currentApp == NULL)
+        if(currentApp == nullptr)
             currentApp = this;
         else
             std::cout << "Warning: App was instantiated multiple times" << std::endl;
@@ -26,7 +26,7 @@ namespace Engine {
 
     App::App(bool defaultView) {
 
-        if(currentApp == NULL)
+        if(currentApp == nullptr)
             currentApp = this;
         else
             std::cout << "Warning: App was instantiated multiple times" << std::endl;
@@ -61,7 +61,7 @@ namespace Engine {
                     int i=0,j=0,l=LIST.size(); \
                     while(i<l) { \
                         auto itm = LIST[i]; \
-                        if(itm == NULL) drop = true; \
+                        if(itm == nullptr) drop = true; \
                         else { \
                             itm->FUNCCALL; \
                             if(drop) LIST[j] = LIST[i]; \

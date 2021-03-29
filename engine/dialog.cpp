@@ -5,15 +5,14 @@ namespace Engine {
     namespace Dialog {
 
         std::string EnvironmentVariable(const std::string &variable){
-            char data[2048];
-            int len = GetEnvironmentVariable(variable.data(), data, 2048);
+            char data[5096];
+            GetEnvironmentVariable(variable.data(), data, 5096); //returns length
             return std::string(data);
         }
 
         COLORREF ColorDialog::customColors[16];
 
-        ColorDialog::ColorDialog(sf::Color col){
-            _result = col;
+        ColorDialog::ColorDialog(sf::Color col): _result(col) {
             ZeroMemory(&cc, sizeof(cc));
             cc.lStructSize = sizeof(cc);
             cc.hwndOwner = App::current().window().getSystemHandle();

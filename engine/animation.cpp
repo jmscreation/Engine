@@ -5,7 +5,7 @@ namespace Engine {
     Animation::Animation(sf::Texture* tex,std::vector<int>&& aniFrames,int x,int y,int w,int h,int sw):
         texture(tex), x(x), y(y), width(w), height(h), strip(sw) {
 
-        int i = 0,l = aniFrames.size(), frame = 0;
+        int l = aniFrames.size(), frame = 0;
 
         animationFrames.reserve(l);
 

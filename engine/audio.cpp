@@ -2,10 +2,10 @@
 
 namespace Engine {
 
-    AudioContext* AudioContext::currentCtx = NULL;
+    AudioContext* AudioContext::currentCtx = nullptr;
 
-    AudioContext::AudioContext(int rate): sampleRate(rate), stream(NULL) {
-        if(currentCtx == NULL) {
+    AudioContext::AudioContext(int rate): sampleRate(rate), stream(nullptr) {
+        if(currentCtx == nullptr) {
             currentCtx = this;
 
             PaError err;
@@ -41,7 +41,7 @@ namespace Engine {
             delete playlist[i];
 
         if(currentCtx == this) {
-            currentCtx = NULL;
+            currentCtx = nullptr;
 
             PaError err = Pa_StopStream(stream);
             if(err != paNoError) std::cout << "Error closing PortAudio stream: " << Pa_GetErrorText(err) << std::endl;
@@ -51,7 +51,7 @@ namespace Engine {
 
     int AudioContext::callbackStatic(const void* in,void* out,unsigned long fpb,
         const PaStreamCallbackTimeInfo* tmi,PaStreamCallbackFlags flgs,void* dat) {
-        return ((AudioContext*)dat)->callback(in,out,fpb,tmi,flgs);
+        return (static_cast<AudioContext*>(dat))->callback(in,out,fpb,tmi,flgs);
     }
 
     int AudioContext::callback(const void* in,void* out,unsigned long fpb,
@@ -61,13 +61,13 @@ namespace Engine {
 
         int playsz = playlist.size();
 
-        float *samples_out = (float*)out;
+        float *samples_out = static_cast<float*>(out);
 
         float L,R, lv,rv;
         for(int samp=0; samp<fpb; samp++) {
             L = R = 0;
             for(int i=0; i<playsz; i++) {
-                if(playlist[i] == NULL) {
+                if(playlist[i] == nullptr) {
                     playlist.erase(playlist.begin() + i);
                     i--; playsz--;
                     continue;
@@ -86,20 +86,20 @@ namespace Engine {
 
 
     SoundBuffer::SoundBuffer():
-        samples(NULL), sampleCount(0), defVolume(1), defDestroy(false) {}
+        samples(nullptr), sampleCount(0), defVolume(1), defDestroy(false) {}
 
     SoundBuffer::~SoundBuffer() {
-        if(samples != NULL)
+        if(samples != nullptr)
             delete samples;
     }
 
     bool SoundBuffer::loadOGGFromFile(const std::string& fn) {
-        if(samples != NULL)
+        if(samples != nullptr)
             delete samples;
 
         sampleCount = stb_vorbis_decode_filename(fn.c_str(), &channels,&sampleRate,&samples);
         if(sampleCount == -1) {
-            samples = NULL;
+            samples = nullptr;
             std::cout << "Warning: unable to load vorbis from file '" << fn << "'" << std::endl;
             return false;
         }
@@ -110,12 +110,12 @@ namespace Engine {
     }
 
     bool SoundBuffer::loadOGGFromMemory(const void* data,size_t size) {
-        if(samples != NULL)
+        if(samples != nullptr)
             delete samples;
 
         sampleCount = stb_vorbis_decode_memory((const unsigned char*)data,size, &channels,&sampleRate,&samples);
         if(sampleCount == -1) {
-            samples = NULL;
+            samples = nullptr;
             std::cout << "Warning: unable to load vorbis from memory" << std::endl;
             return false;
         }
@@ -126,7 +126,7 @@ namespace Engine {
     }
 
     bool SoundBuffer::loadRawFromMemory(const void* data,size_t len,int rate,int channs,int bytes) {
-        if(samples != NULL)
+        if(samples != nullptr)
             delete samples;
 
         sampleCount = len;
@@ -150,7 +150,7 @@ namespace Engine {
                     samples[i] = (short)(((long long int*)data)[i] >> 48);
                 break;
             default:
-                samples = NULL;
+                samples = nullptr;
                 return false;
         }
 
@@ -192,7 +192,7 @@ namespace Engine {
     void SoundBuffer::sample(float& L,float& R,const double& p) {
         float t = p - floor(p);
         int i = (int)floor(p);
-        i = i<0 ? 0 : i>sampleCount-1 ? sampleCount-1 : i;
+        i = i<0 ? 0 : (i>sampleCount-1 ? sampleCount-1 : i);
         if(channels==1)
             L = R = (float(samples[i])*(1-t) + float(samples[i+1])*t) * (1.0/65536.0);
         else if(channels > 1) { // use first two channels
@@ -217,7 +217,7 @@ namespace Engine {
         
         ctx.locked.lock();
         auto i = std::find(ctx.playlist.begin(),ctx.playlist.end(),this);
-        *i = NULL;
+        *i = nullptr;
         ctx.locked.unlock();
     }
 
@@ -246,7 +246,7 @@ namespace Engine {
     }
 
     void SoundInstance::samplePosition(int p) {
-        pos = p<0 ? 0 : p>sound->sampleCount-1 ? double(sound->sampleCount-1) : (double)p;
+        pos = p<0 ? 0 : (p>sound->sampleCount-1 ? double(sound->sampleCount-1) : (double)p);
     }
 
     double SoundInstance::position() {
