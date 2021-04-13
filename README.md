@@ -12,7 +12,9 @@ https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-
 
 *64bit: winlibs-x86_64-posix-seh-gcc-10.2.0-mingw-w64-8.0.0-r7.7z*
 
-
+In order to get started, see the Wiki section:
+[Get Started With CodeBlocks](https://github.com/jmscreation/Engine/wiki/Getting-Started---Setup-With-CodeBlocks)
+[Get Started Without CodeBlocks](https://github.com/jmscreation/Engine/wiki/Getting-Started---MinGW-GCC-Only-(Without-CodeBlocks))
 
 # Important Linker Settings:
 
