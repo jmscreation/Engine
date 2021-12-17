@@ -41,11 +41,11 @@ namespace Engine {
                           B = type==MASK_CIRCLE ? T+m.rect.h : T+rect.h;
 
                     // test collision with sides
-                    if(cx > L && cx < R) return cy+rad > T && cy-rad < B;
-                    if(cy > T && cy < B) return cx+rad > L && cx-rad < R;
+                    if(cx >= L && cx <= R) return cy+rad > T && cy-rad < B;
+                    if(cy >= T && cy <= B) return cx+rad > L && cx-rad < R;
 
                     // test collision with corners
-                    float corx = (cx < L ? L : R) - cx, cory = (cy < T ? T : B) - cy;
+                    float corx = (cx <= L ? L : R) - cx, cory = (cy <= T ? T : B) - cy;
                     return corx*corx + cory*cory < rad*rad;
                 }
         }
